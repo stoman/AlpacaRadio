@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: AlpacaRadio
+  data:
+    mongodb:
+      host: "mongo"
+      database: "alpacaradio"
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: d6b59fcd3e384920280c
+            client-secret: 3030c7dd768a1733ec4cd58b06eb9d6d18db4335
+          google:
+            client-id: 76155206881-sb3d5dgmeidh7kbhc7onsgvngb4bb3rd.apps.googleusercontent.com
+            client-secret: OYOGxV3L4GGLU81woXQDTAxH
