@@ -8,5 +8,7 @@ data class Video(
   @Id val id: String,
   val title: String,
   val start: Duration,
-  val end: Duration
-)
+  val end: Duration,
+) {
+  fun length(): Duration = end.minus(start)
+}

@@ -9,6 +9,7 @@ import java.time.Duration
 
 /** Controller for debugging utilities during development. */
 @RestController
+@RequestMapping("debug")
 class DebugController(@Autowired private val videoRepository: VideoRepository) {
   @RequestMapping("/populate")
   fun populate(): String {

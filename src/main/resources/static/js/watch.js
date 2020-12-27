@@ -27,15 +27,22 @@ function onPlayerStateChange(event) {
   }
 }
 
+var loadNextVideoLastCall = new Date(1970, 0)
 function loadNextVideo(player) {
+  var current = new Date()
+  if(current - loadNextVideoLastCall <= 1000) {
+    return;
+  }
+  loadNextVideoLastCall = current;
+
   fetch('/history/current', {headers: getAuthHeaders()})
     .then(function (response) {
       return response.json();
     })
-    .then(function (history) {
+    .then(function (response) {
       player.loadVideoById({
-        'videoId': history.video.id,
-        'startSeconds': history.startVideoFromSeconds,
-        'endSeconds': history.video.endSeconds});
+        'videoId': response.videoId,
+        'startSeconds': response.startFromSeconds,
+        'endSeconds': response.endSeconds});
     });
 }
