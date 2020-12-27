@@ -8,9 +8,11 @@
 <body>
 <div th:fragment="header">
     <h1>Welcome to AlpacaRadio!</h1>
-    <a href="/oauth2/authorization/github">Login with GitHub</a>
-    <a href="/oauth2/authorization/google">Login with Google</a>
-    <a href="#" onclick="logout()">Logout</a>
+    <a th:unless="${user}" href="/oauth2/authorization/github">Login with GitHub</a>
+    <a th:unless="${user}" href="/oauth2/authorization/google">Login with Google</a>
+    <img th:if="${user}" th:src="${user.picture}" style="width: 2em; height: 2em; border-radius: 0.5em;" />
+    <span th:if="${user}" th:text="${user.name}">Full Name</span>
+    <a th:if="${user}" href="#" onclick="logout()">Logout</a>
 </div>
 <p>Content here</p>
 <div th:fragment="footer">Made with 🎶 in Munich</div>

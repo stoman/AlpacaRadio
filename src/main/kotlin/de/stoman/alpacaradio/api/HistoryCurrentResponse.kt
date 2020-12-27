@@ -7,4 +7,6 @@ data class HistoryCurrentResponse(
   val videoId: String,
   val startFromSeconds: Long,
   val endSeconds: Long,
+  val addedByName: String,
+  val addedByPicture: String,
 )

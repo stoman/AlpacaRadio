@@ -15,7 +15,7 @@ import kotlin.random.Random
 class HistoryService(
   @Autowired private val historyRepository: HistoryRepository,
   @Autowired private val videoRepository: VideoRepository,
-  private val clock: Clock = Clock.systemUTC()
+  private val clock: Clock = Clock.systemUTC(),
 ) {
   private fun scoreVideo(video: Video): Double = Random.Default.nextDouble()
 

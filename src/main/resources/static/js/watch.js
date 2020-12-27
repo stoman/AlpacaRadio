@@ -44,5 +44,7 @@ function loadNextVideo(player) {
         'videoId': response.videoId,
         'startSeconds': response.startFromSeconds,
         'endSeconds': response.endSeconds});
+      document.getElementById('addedByName').innerHTML = response.addedByName;
+      document.getElementById('addedByPicture').src = response.addedByPicture;
     });
 }
