@@ -20,7 +20,7 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
   if (event.data === YT.PlayerState.PLAYING) {
-    document.getElementById('autoplay-disabled').style.display = 'none';
+    document.getElementById('autoplayDisabled').style.display = 'none';
   }
   if (event.data === YT.PlayerState.ENDED) {
     loadNextVideo(event.target);

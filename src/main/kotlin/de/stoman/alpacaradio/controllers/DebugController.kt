@@ -38,7 +38,4 @@ class DebugController(
         addedBy = user)))
     return "ok"
   }
-
-  @RequestMapping("/list")
-  fun list(): String = videoRepository.findAll().joinToString(", ")
 }

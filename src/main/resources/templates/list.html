@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<div th:replace="fragments/layout :: header">Header</div>
+
+<h2>All Videos</h2>
+<ul>
+    <li th:each="video: ${videos}">
+        <span th:text="${video.title}">Video Title</span> added by
+        <img style="width: 2em; height: 2em; border-radius: 0.5em;" th:src="${video.addedBy.picture}"/>
+        <span th:text="${video.addedBy.name}">Full Name</span>
+    </li>
+</ul>
+
+<div th:replace="fragments/layout :: footer">Footer</div>
+</body>
+</html>

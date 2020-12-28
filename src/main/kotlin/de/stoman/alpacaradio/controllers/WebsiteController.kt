@@ -5,6 +5,7 @@ import de.stoman.alpacaradio.model.Video
 import de.stoman.alpacaradio.model.VideoRepository
 import de.stoman.alpacaradio.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Controller
@@ -33,7 +34,11 @@ class WebsiteController(
   }
 
   @GetMapping("/addVideo")
-  fun addVideoForm(model: Model, @AuthenticationPrincipal principal: OAuth2User, @RequestParam videoExists: Boolean = false): String {
+  fun addVideoForm(
+    model: Model,
+    @AuthenticationPrincipal principal: OAuth2User,
+    @RequestParam videoExists: Boolean = false
+  ): String {
     model["user"] = userService.currentUser(principal)
     model["videoExists"] = videoExists
     return "add"
@@ -44,7 +49,7 @@ class WebsiteController(
     @ModelAttribute formData: WebsiteAddVideoRequest,
     @AuthenticationPrincipal principal: OAuth2User,
   ): ModelAndView {
-    if(videoRepository.existsById(formData.videoId)) {
+    if (videoRepository.existsById(formData.videoId)) {
       return ModelAndView(RedirectView("/addVideo?videoExists=true", true))
     }
 
@@ -55,5 +60,11 @@ class WebsiteController(
       end = Duration.ofSeconds(formData.endSeconds),
       addedBy = userService.currentUser(principal)))
     return ModelAndView(RedirectView("/", true))
+  }
+
+  @GetMapping("/listVideos")
+  fun listVideos(model: Model): String {
+    model["videos"] = videoRepository.findAll(Sort.by("title"))
+    return "list"
   }
 }
