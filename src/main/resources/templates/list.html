@@ -12,6 +12,12 @@
         <span th:text="${video.title}">Video Title</span> added by
         <img style="width: 2em; height: 2em; border-radius: 0.5em;" th:src="${video.addedBy.picture}"/>
         <span th:text="${video.addedBy.name}">Full Name</span>
+        <span th:if="${videoLastPlayed.containsKey(video.id)}">
+            (last played <span th:text="${videoLastPlayed[video.id]}">X</span> minutes ago)
+        </span>
+        <span th:unless="${videoLastPlayed.containsKey(video.id)}">
+            (never played)
+        </span>
     </li>
 </ul>
 
