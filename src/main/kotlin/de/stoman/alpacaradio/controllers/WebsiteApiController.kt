@@ -1,7 +1,6 @@
 package de.stoman.alpacaradio.controllers
 
-import de.stoman.alpacaradio.api.HistoryCurrentResponse
-import de.stoman.alpacaradio.model.History
+import de.stoman.alpacaradio.api.WebsiteApiCurrentVideoResponse
 import de.stoman.alpacaradio.services.HistoryService
 import de.stoman.alpacaradio.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,18 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-/** Controller that makes [History] objects available via a REST API. */
+/** Controller that adds a REST API to be used by website scripts. */
 @RestController
-@RequestMapping("history")
-class HistoryController(
+@RequestMapping("api")
+class WebsiteApiController(
   @Autowired private val historyService: HistoryService,
   @Autowired private val userService: UserService,
 ) {
-  @GetMapping("/current")
-  fun current(@AuthenticationPrincipal principal: OAuth2User): HistoryCurrentResponse {
+  @GetMapping("/currentVideo")
+  fun currentVideo(@AuthenticationPrincipal principal: OAuth2User): WebsiteApiCurrentVideoResponse {
     val user = userService.currentUser(principal)
     val history = historyService.currentlyPlayingVideo()
-    return HistoryCurrentResponse(
+    return WebsiteApiCurrentVideoResponse(
       videoId = history.video.id,
       startFromSeconds = history.getStartVideoFromSeconds(),
       endSeconds = history.video.end.seconds,

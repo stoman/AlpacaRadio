@@ -19,10 +19,10 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-  if (event.data == YT.PlayerState.PLAYING) {
+  if (event.data === YT.PlayerState.PLAYING) {
     document.getElementById('autoplay-disabled').style.display = 'none';
   }
-  if (event.data == YT.PlayerState.ENDED) {
+  if (event.data === YT.PlayerState.ENDED) {
     loadNextVideo(event.target);
   }
 }
@@ -35,7 +35,7 @@ function loadNextVideo(player) {
   }
   loadNextVideoLastCall = current;
 
-  fetch('/history/current', {headers: getAuthHeaders()})
+  fetch('/api/currentVideo', {headers: getAuthHeaders()})
     .then(function (response) {
       return response.json();
     })
