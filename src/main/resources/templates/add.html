@@ -6,7 +6,9 @@
 <body>
 <div th:replace="fragments/layout :: header">Header</div>
 
-<p th:if="${videoExists}">This video was added to the database already.</p>
+<p th:if="${videoExists}">
+    This video was added to the database already. You seem to like this video, so we added an upvote for you!
+</p>
 
 <form action="#" method="post" th:action="@{/addVideo}">
     <label for="videoId">Video Id</label>

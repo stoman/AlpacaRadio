@@ -27,12 +27,22 @@ class HistoryService(
     fun partialScore(x: Double, mean: Double = 0.0, scale: Double = 1.0): Double = 0.5 + 0.5 * tanh((x - mean) / scale)
 
     var score = 0.01
+
+    // Bonus for videos not played recently.
     score += 0.5 * (Video.LAST_PLAYED_SIZE - video.lastPlayed.size)
     if (video.lastPlayed.isEmpty()) {
       score += 10.0
     }
     score += video.lastPlayed.map { Duration.between(it, clock.instant()).toMinutes() }
       .mapIndexed { i, minutes -> partialScore(minutes.toDouble(), mean = (i + 1) * 3 * 60.0, scale = 60.0) }.sum()
+
+    // Bonus for songs receiving a lot of upvotes.
+    score += 2 * partialScore(video.votes.values.map {
+      when (it) {
+        Video.VoteType.UPVOTE -> 1
+        Video.VoteType.DOWNVOTE -> -2
+      }
+    }.sum().toDouble(), mean = 2.0)
 
     logger.debug("scoreVideo", "${video.title}: $score")
     return score

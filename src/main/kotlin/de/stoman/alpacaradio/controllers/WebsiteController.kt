@@ -52,6 +52,9 @@ class WebsiteController(
     @AuthenticationPrincipal principal: OAuth2User,
   ): ModelAndView {
     if (videoRepository.existsById(formData.videoId)) {
+      // Video is already in the database. Add an upvote instead.
+      videoRepository.save(videoRepository.findById(formData.videoId).get()
+        .addVote(userService.currentUser(principal), Video.VoteType.UPVOTE))
       return ModelAndView(RedirectView("/addVideo?videoExists=true", true))
     }
 

@@ -14,6 +14,7 @@ data class Video(
   @DBRef val addedBy: User,
   // Contains the [LAST_PLAYED_SIZE] last times this was played. Ordered descending.
   var lastPlayed: List<Instant> = listOf(),
+  var votes: Map<String, VoteType> = mapOf(),
 ) {
   fun length(): Duration = end.minus(start)
 
@@ -22,6 +23,15 @@ data class Video(
     lastPlayed = newLastPlayed.subList(0, LAST_PLAYED_SIZE.coerceAtMost(newLastPlayed.size))
     return this
   }
+
+  fun addVote(user: User, voteType: VoteType): Video {
+    val newVotes = votes.toMutableMap()
+    newVotes[user.id] = voteType
+    votes = newVotes
+    return this
+  }
+
+  enum class VoteType { UPVOTE, DOWNVOTE }
 
   companion object {
     const val LAST_PLAYED_SIZE = 5

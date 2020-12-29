@@ -12,11 +12,14 @@
         <span th:text="${video.title}">Video Title</span> added by
         <img style="width: 2em; height: 2em; border-radius: 0.5em;" th:src="${video.addedBy.picture}"/>
         <span th:text="${video.addedBy.name}">Full Name</span>
-        <span th:if="${videoLastPlayed.containsKey(video.id)}">
+        <span th:if="${#maps.containsKey(videoLastPlayed, video.id)}">
             (last played <span th:text="${videoLastPlayed[video.id]}">X</span> minutes ago)
         </span>
         <span th:unless="${videoLastPlayed.containsKey(video.id)}">
             (never played)
+        </span>
+        <span th:if="${#maps.size(video.votes)}">
+            (<span th:text="${#maps.size(video.votes)}">X</span> votes)
         </span>
     </li>
 </ul>
