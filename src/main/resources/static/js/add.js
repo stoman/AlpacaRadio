@@ -15,7 +15,6 @@ function loadVideo() {
 }
 
 function populateVideoDetails(event) {
-console.log(event.target.getDuration());
   if(event.data === YT.PlayerState.PLAYING) {
     var duration = Math.floor(event.target.getDuration());
     document.getElementById('startSeconds').value = 0;

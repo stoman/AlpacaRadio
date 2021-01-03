@@ -1,29 +1,36 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/layout :: head">
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@next/dist/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/layout :: header">Header</div>
+<div th:replace="fragments/layout :: navbar">Navbar</div>
 
-<h2>All Videos</h2>
-<ul>
-    <li th:each="video: ${videos}">
-        <span th:text="${video.title}">Video Title</span> added by
-        <img style="width: 2em; height: 2em; border-radius: 0.5em;" th:src="${video.addedBy.picture}"/>
-        <span th:text="${video.addedBy.name}">Full Name</span>
-        <span th:if="${#maps.containsKey(videoLastPlayed, video.id)}">
+<div class="container">
+    <h2>All Videos</h2>
+    <ul>
+        <li th:each="video: ${videos}">
+            <span th:text="${video.title}">Video Title</span> added by
+            <img style="width: 2em; height: 2em; border-radius: 0.5em;" th:src="${video.addedBy.picture}"/>
+            <span th:text="${video.addedBy.name}">Full Name</span>
+            <span th:if="${#maps.containsKey(videoLastPlayed, video.id)}">
             (last played <span th:text="${videoLastPlayed[video.id]}">X</span> minutes ago)
         </span>
-        <span th:unless="${videoLastPlayed.containsKey(video.id)}">
+            <span th:unless="${videoLastPlayed.containsKey(video.id)}">
             (never played)
         </span>
-        <span th:if="${#maps.size(video.votes)}">
+            <span th:if="${#maps.size(video.votes)}">
             (<span th:text="${#maps.size(video.votes)}">X</span> votes)
         </span>
-    </li>
-</ul>
+        </li>
+    </ul>
+</div>
 
-<div th:replace="fragments/layout :: footer">Footer</div>
+<div th:replace="fragments/layout :: footer">
+    <div class="container">Footer</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@next/dist/js/bootstrap.bundle.js"></script>
+</div>
 </body>
 </html>
