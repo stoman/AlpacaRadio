@@ -1,12 +1,37 @@
 var app = Vue.createApp({
   data() {
     return {
+      videoId: '',
       videoTitle: 'Loading radio station...',
       addedByName: '',
       addedByPicture: '',
+      userVote: '',
+      userVoteServer: '',
+      userVoteUpdating: false,
       videoWarning: false,
       ytPlayer: undefined,
       loadNextVideoLastCall: new Date(1970, 0),
+    }
+  },
+  watch: {
+    userVote: function(newVote, oldVote) {
+      if(newVote == this.userVoteServer) {
+        return;
+      }
+
+      this.userVoteServer = newVote;
+      this.userVoteUpdating = true;
+      var that = this;
+      var headers = getAuthHeaders();
+      headers.append('Content-Type', 'application/json');
+      fetch('/api/addVote', {
+        headers: headers,
+        method: 'POST',
+        body: JSON.stringify({videoId: this.videoId, voteType: newVote})
+      })
+      .then(function(response) {
+        that.userVoteUpdating = false;
+      });
     }
   },
   methods: {
@@ -28,14 +53,17 @@ var app = Vue.createApp({
 
       // Load next video.
       var that = this;
-      fetch('/api/currentVideo', {headers: getAuthHeaders()})
+      fetch('/api/getCurrentVideo', {headers: getAuthHeaders()})
         .then(function (response) {
           return response.json();
         })
         .then(function (response) {
+          that.videoId = response.videoId;
           that.videoTitle = response.videoTitle;
           that.addedByName = response.addedByName;
           that.addedByPicture = response.addedByPicture;
+          that.userVoteServer = response.userVote;
+          that.userVote = response.userVote;
 
           if(!!that.ytPlayer) {
             that.ytPlayer.loadVideoById({

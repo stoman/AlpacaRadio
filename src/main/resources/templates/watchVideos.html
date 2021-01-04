@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@next/dist/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/layout :: navbar">Navbar</div>
+
+<div id="vue" class="container">
+    <div v-if="videoWarning" class="alert alert-warning" role="alert">
+        Your browser disables autoplay of videos if you don't interact with the website. Please start the video
+        manually.
+    </div>
+    <h2>{{videoTitle}}</h2>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            <div id="player"></div>
+        </div>
+    </div>
+    <div class="row justify-content-between">
+        <div class="col-auto">
+            Video added by:
+            <user-details v-bind:name="addedByName" v-bind:picture="addedByPicture"></user-details>
+        </div>
+        <div class="col-auto">
+            <div v-if="userVoteUpdating" class="spinner-border text-primary mx-3" role="status">
+                <span class="visually-hidden">Updating vote...</span>
+            </div>
+            <div th:if="${user}" class="btn-group" role="group" aria-label="Vote for the video">
+                <input type="radio" class="btn-check" v-model="userVote" name="vote" value="" id="noVote"
+                       autocomplete="off" v-bind:disabled="userVoteUpdating">
+                <label class="btn btn-outline-primary" for="noVote">No vote</label>
+
+                <input type="radio" class="btn-check" v-model="userVote" name="vote" value="UPVOTE" id="upvote"
+                       autocomplete="off" v-bind:disabled="userVoteUpdating">
+                <label class="btn btn-outline-primary" for="upvote">Upvote</label>
+
+                <input type="radio" class="btn-check" v-model="userVote" name="vote" value="DOWNVOTE" id="downvote"
+                       autocomplete="off" v-bind:disabled="userVoteUpdating">
+                <label class="btn btn-outline-primary" for="downvote">Downvote</label>
+            </div>
+            <a th:unless="${user}" href="/signin">Sign in to vote for this video.</a>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="fragments/layout :: footer">
+    <div class="container">Footer</div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@next/dist/js/bootstrap.bundle.js"></script>
+    <script th:src="@{/js/helper/auth.js}" src="../static/js/helper/auth.js" type="text/javascript"></script>
+</div>
+
+<script src="https://www.youtube.com/iframe_api" type="text/javascript"></script>
+<script th:src="@{/js/watchVideos.js}" src="../static/js/watchVideos.js" type="text/javascript"></script>
+
+</body>
+</html>

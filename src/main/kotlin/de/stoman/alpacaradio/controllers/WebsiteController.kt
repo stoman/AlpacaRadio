@@ -30,7 +30,7 @@ class WebsiteController(
   private val clock: Clock = Clock.systemUTC(),
 ) {
   @GetMapping("/")
-  fun index(): ModelAndView = ModelAndView(RedirectView("/watch", true))
+  fun index(): ModelAndView = ModelAndView(RedirectView("/watchVideos", true))
 
   @GetMapping("/signin")
   fun login(@AuthenticationPrincipal principal: OAuth2User?): ModelAndView {
@@ -40,12 +40,12 @@ class WebsiteController(
     return ModelAndView(RedirectView("/", true))
   }
 
-  @GetMapping("/watch")
-  fun watch(model: Model, @AuthenticationPrincipal principal: OAuth2User?): String {
+  @GetMapping("/watchVideos")
+  fun watchVideos(model: Model, @AuthenticationPrincipal principal: OAuth2User?): String {
     if (principal != null) {
       model["user"] = userService.currentUser(principal)
     }
-    return "watch"
+    return "watchVideos"
   }
 
   @GetMapping("/addVideo")
@@ -56,7 +56,7 @@ class WebsiteController(
   ): String {
     model["user"] = userService.currentUser(principal)
     model["videoExists"] = videoExists
-    return "add"
+    return "addVideo"
   }
 
   @PostMapping("/addVideo")
@@ -98,6 +98,6 @@ class WebsiteController(
     model["videoScoreVotes"] = videos.associateBy { it.id }.mapValues {
       historyService.scoreVideo(it.value, useBaseScore = false, useRecencyScore = false, useVotingScore = true)
     }
-    return "list"
+    return "listVideos"
   }
 }

@@ -24,9 +24,14 @@ data class Video(
     return this
   }
 
-  fun addVote(user: User, voteType: VoteType): Video {
-    val newVotes = votes.toMutableMap()
-    newVotes[user.id] = voteType
+  fun addVote(user: User, voteType: VoteType?): Video {
+    val newVotes: MutableMap<String, VoteType> = votes.toMutableMap()
+    if(voteType == null) {
+      newVotes.remove(user.id)
+    }
+    else {
+      newVotes[user.id] = voteType
+    }
     votes = newVotes
     return this
   }

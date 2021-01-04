@@ -10,7 +10,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 class AlpacaRadioApplication : WebSecurityConfigurerAdapter() {
   override fun configure(http: HttpSecurity) {
     val publicPages =
-      arrayOf("/", "/watch", "/listVideos", "/api/currentVideo", "/error", "/js/**", "/css/**", "/img/**")
+      arrayOf("/", "/watchVideos", "/listVideos", "/api/getCurrentVideo", "/error", "/js/**", "/css/**", "/img/**")
 
     http
       .authorizeRequests {
