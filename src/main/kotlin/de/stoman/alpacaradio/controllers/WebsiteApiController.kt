@@ -26,8 +26,7 @@ class WebsiteApiController(
   @Autowired private val videoRepository: VideoRepository,
 ) {
   @GetMapping("/currentVideo")
-  fun currentVideo(@AuthenticationPrincipal principal: OAuth2User): WebsiteApiCurrentVideoResponse {
-    val user = userService.currentUser(principal)
+  fun currentVideo(): WebsiteApiCurrentVideoResponse {
     val history = historyService.currentlyPlayingVideo()
     return WebsiteApiCurrentVideoResponse(
       videoId = history.video.id,

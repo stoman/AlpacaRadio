@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@next/dist/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/layout :: navbar">Navbar</div>
+
+<div class="container">
+    <h2>Sign in</h2>
+    <p class="mb-5">
+        Please sign in to unlock personalized features like adding videos, voting on videos, and more.
+    </p>
+    <div class="row justify-content-md-center mb-3">
+        <a class="col-md-6 btn btn-lg btn-outline-dark text-uppercase" href="/oauth2/authorization/github">
+            <img th:src="@{/img/github.png}" src="../static/img/github.png">
+            Sign in with GitHub
+        </a>
+    </div>
+    <div class="row justify-content-md-center">
+        <a class="col-md-6 btn btn-lg btn-outline-dark text-uppercase" href="/oauth2/authorization/google">
+            <img th:src="@{/img/google.png}" src="../static/img/google.png">
+            Sign in with Google
+        </a>
+        </p>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer">
+    <div class="container">Footer</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@next/dist/js/bootstrap.bundle.js"></script>
+</div>
+
+</body>
+</html>

@@ -28,6 +28,17 @@ class WebsiteController(
   private val clock: Clock = Clock.systemUTC(),
 ) {
   @GetMapping("/")
+  fun index(): ModelAndView = ModelAndView(RedirectView("/watch", true))
+
+  @GetMapping("/signin")
+  fun login(@AuthenticationPrincipal principal: OAuth2User?): ModelAndView {
+    if(principal == null) {
+      return ModelAndView("signin")
+    }
+    return ModelAndView(RedirectView("/", true))
+  }
+
+  @GetMapping("/watch")
   fun watch(model: Model, @AuthenticationPrincipal principal: OAuth2User?): String {
     if (principal != null) {
       model["user"] = userService.currentUser(principal)
