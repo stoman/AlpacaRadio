@@ -21,8 +21,17 @@
                     never played
                 </small>
             </div>
-            <p>Video added by:
+            <p>
+                Video added by:
                 <user-details th:name="${video.addedBy.name}" th:picture="${video.addedBy.picture}"></user-details>
+            </p>
+            <p>
+                <small>
+                    Base score: <span th:text="${#numbers.formatDecimal(videoScoreBase[video.id], 1, 4)}">0.xxxx</span>,
+                    recency score: <span
+                        th:text="${#numbers.formatDecimal(videoScoreRecency[video.id], 1, 4)}">0.xxxx</span>,
+                    votes score: <span th:text="${#numbers.formatDecimal(videoScoreVotes[video.id], 1, 4)}">0.xxxx</span>
+                </small>
             </p>
             <span th:if="${#maps.size(video.votes)}" class="badge bg-primary">
                 <span th:text="${#maps.size(video.votes)}">X</span> votes

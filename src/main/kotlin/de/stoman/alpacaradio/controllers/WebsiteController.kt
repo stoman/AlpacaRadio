@@ -3,6 +3,7 @@ package de.stoman.alpacaradio.controllers
 import de.stoman.alpacaradio.api.WebsiteAddVideoRequest
 import de.stoman.alpacaradio.model.Video
 import de.stoman.alpacaradio.model.VideoRepository
+import de.stoman.alpacaradio.services.HistoryService
 import de.stoman.alpacaradio.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
@@ -23,6 +24,7 @@ import java.time.Duration
 /** Controller to render all HTML pages of the website. */
 @Controller
 class WebsiteController(
+  @Autowired private val historyService: HistoryService,
   @Autowired private val userService: UserService,
   @Autowired private val videoRepository: VideoRepository,
   private val clock: Clock = Clock.systemUTC(),
@@ -32,7 +34,7 @@ class WebsiteController(
 
   @GetMapping("/signin")
   fun login(@AuthenticationPrincipal principal: OAuth2User?): ModelAndView {
-    if(principal == null) {
+    if (principal == null) {
       return ModelAndView("signin")
     }
     return ModelAndView(RedirectView("/", true))
@@ -87,6 +89,15 @@ class WebsiteController(
     model["videos"] = videos
     model["videoLastPlayed"] = videos.filter { it.lastPlayed.isNotEmpty() }.associateBy { it.id }
       .mapValues { Duration.between(it.value.lastPlayed.maxOrNull(), clock.instant()).toMinutes() }
+    model["videoScoreBase"] = videos.associateBy { it.id }.mapValues {
+      historyService.scoreVideo(it.value, useBaseScore = true, useRecencyScore = false, useVotingScore = false)
+    }
+    model["videoScoreRecency"] = videos.associateBy { it.id }.mapValues {
+      historyService.scoreVideo(it.value, useBaseScore = false, useRecencyScore = true, useVotingScore = false)
+    }
+    model["videoScoreVotes"] = videos.associateBy { it.id }.mapValues {
+      historyService.scoreVideo(it.value, useBaseScore = false, useRecencyScore = false, useVotingScore = true)
+    }
     return "list"
   }
 }
