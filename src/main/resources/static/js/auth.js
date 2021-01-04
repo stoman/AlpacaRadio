@@ -23,4 +23,10 @@ function logout() {
   return false;
 }
 
-
+const userDetailsComponent = {
+  props: ['name', 'picture'],
+  template: `<span class="user">
+   <img v-bind:src="picture" style="width: 2em; height: 2em; border-radius: 0.5em;" />
+   {{name}}
+ </span>`
+}

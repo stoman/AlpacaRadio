@@ -31,6 +31,7 @@ class WebsiteApiController(
     val history = historyService.currentlyPlayingVideo()
     return WebsiteApiCurrentVideoResponse(
       videoId = history.video.id,
+      videoTitle = history.video.title,
       startFromSeconds = history.getStartVideoFromSeconds(),
       endSeconds = history.video.end.seconds,
       addedByName = history.video.addedBy.name,
