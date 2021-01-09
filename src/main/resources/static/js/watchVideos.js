@@ -8,6 +8,7 @@ var app = Vue.createApp({
       userVote: '',
       userVoteServer: '',
       userVoteUpdating: false,
+      votes: {},
       videoWarning: false,
       ytPlayer: undefined,
       loadNextVideoLastCall: new Date(1970, 0),
@@ -19,6 +20,8 @@ var app = Vue.createApp({
         return;
       }
 
+      this.votes[newVote]++;
+      this.votes[oldVote]--;
       this.userVoteServer = newVote;
       this.userVoteUpdating = true;
       var that = this;
@@ -64,6 +67,7 @@ var app = Vue.createApp({
           that.addedByPicture = response.addedByPicture;
           that.userVoteServer = response.userVote;
           that.userVote = response.userVote;
+          that.votes = response.votes;
 
           if(!!that.ytPlayer) {
             that.ytPlayer.loadVideoById({

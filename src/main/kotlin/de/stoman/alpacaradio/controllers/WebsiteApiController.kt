@@ -25,6 +25,10 @@ class WebsiteApiController(
   @Autowired private val userService: UserService,
   @Autowired private val videoRepository: VideoRepository,
 ) {
+  /**
+   * Returns the current video to be displayed at the `watchVideos` page as well as all other details needed to render
+   * that page.
+   */
   @GetMapping("/getCurrentVideo")
   fun getCurrentVideo(@AuthenticationPrincipal principal: OAuth2User?): WebsiteApiGetCurrentVideoResponse {
     val history = historyService.currentlyPlayingVideo()
@@ -35,9 +39,12 @@ class WebsiteApiController(
       endSeconds = history.video.end.seconds,
       addedByName = history.video.addedBy.name,
       addedByPicture = history.video.addedBy.picture,
-      userVote = principal?.let { history.video.votes[userService.currentUser(it).id]?.name } ?: "")
+      userVote = principal?.let { history.video.votes[userService.currentUser(it).id]?.name } ?: "",
+      votes = Video.VoteType.values().map(Video.VoteType::toString).associateWith { 0 }
+        + history.video.votes.values.map(Video.VoteType::toString).groupingBy { it }.eachCount())
   }
 
+  /** Saves a by the active user vote for a specific video to the database. */
   @PostMapping("/addVote", consumes = ["application/json"])
   fun addVote(@RequestBody request: WebsiteApiAddVoteRequest, @AuthenticationPrincipal principal: OAuth2User) {
     val video = videoRepository.findById(request.videoId)

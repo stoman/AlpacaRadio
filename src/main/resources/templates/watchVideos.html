@@ -35,13 +35,32 @@
 
                 <input type="radio" class="btn-check" v-model="userVote" name="vote" value="UPVOTE" id="upvote"
                        autocomplete="off" v-bind:disabled="userVoteUpdating">
-                <label class="btn btn-outline-primary" for="upvote">Upvote</label>
+                <label class="btn btn-outline-primary" for="upvote">
+                    Upvote ({{votes['UPVOTE']}})
+                </label>
 
                 <input type="radio" class="btn-check" v-model="userVote" name="vote" value="DOWNVOTE" id="downvote"
                        autocomplete="off" v-bind:disabled="userVoteUpdating">
-                <label class="btn btn-outline-primary" for="downvote">Downvote</label>
+                <label class="btn btn-outline-primary" for="downvote">
+                    Downvote ({{votes['DOWNVOTE']}})
+                </label>
             </div>
-            <a th:unless="${user}" href="/signin">Sign in to vote for this video.</a>
+            <div th:unless="${user}">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary active" disabled>
+                        No vote
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" disabled>
+                        Upvote ({{votes['UPVOTE']}})
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" disabled>
+                        Downvote ({{votes['DOWNVOTE']}})
+                    </button>
+                </div>
+                <p th:unless="${user}">
+                    <a href="/signin">Sign in to vote for this video.</a>
+                </p>
+            </div>
         </div>
     </div>
 </div>

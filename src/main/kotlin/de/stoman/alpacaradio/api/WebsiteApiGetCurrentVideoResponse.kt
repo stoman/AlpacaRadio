@@ -2,7 +2,7 @@ package de.stoman.alpacaradio.api
 
 import de.stoman.alpacaradio.controllers.WebsiteApiController
 
-/** Response object for [WebsiteApiController]'s `current` method. */
+/** Response object for [WebsiteApiController]'s `getCurrentVideo` method. */
 data class WebsiteApiGetCurrentVideoResponse(
   val videoId: String,
   val videoTitle: String,
@@ -11,4 +11,5 @@ data class WebsiteApiGetCurrentVideoResponse(
   val addedByName: String,
   val addedByPicture: String,
   val userVote: String,
+  val votes: Map<String, Int>,
 )
