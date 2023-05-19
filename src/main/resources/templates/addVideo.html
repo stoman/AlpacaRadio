@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/layout :: head">
+<head th:replace="~{fragments/layout :: head}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/layout :: navbar">Navbar</div>
+<div th:replace="~{fragments/layout :: navbar}">Navbar</div>
 
 <div id="vue" class="container">
     <div th:if="${videoExists}" class="alert alert-danger" role="alert">
@@ -63,7 +63,7 @@
     </form>
 </div>
 
-<div th:replace="fragments/layout :: footer">
+<div th:replace="~{fragments/layout :: footer}">
     <div class="container">Footer</div>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.js"></script>
