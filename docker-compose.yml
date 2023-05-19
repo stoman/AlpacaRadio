@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mongo:
     image: mongo
@@ -10,4 +8,4 @@ services:
   app:
     image: docker.io/library/alpacaradio:DEV
     ports:
-      - 8080:8080
+      - "8080:8080"
